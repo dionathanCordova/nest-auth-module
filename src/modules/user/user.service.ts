@@ -15,13 +15,8 @@ export class UserService {
       password: await bcrypt.hash(createUserDto.password, 10),
     };
 
-    // try {
     const createdUser = await this.prisma.user.create({ data });
     return { ...createdUser, password: undefined };
-    // } catc//h (error) {
-    //   // throw new HttpException(error.message, 403);
-    // return { ...error, message: error.message };
-    // }
   }
 
   findByEmail(email: string) {

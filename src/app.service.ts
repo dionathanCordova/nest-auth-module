@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  getApiInfo(): object {
+    return { info: `Api running at ${process.env.API_PORT} port` };
   }
 }

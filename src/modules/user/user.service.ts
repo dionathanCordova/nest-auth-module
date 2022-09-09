@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from '@app/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
+import { checkIsBadRequest } from '@app/common/helpers/http-request';
 
 @Injectable()
 export class UserService {
@@ -19,7 +20,13 @@ export class UserService {
     return { ...createdUser, password: undefined };
   }
 
-  findByEmail(email: string) {
-    return this.prisma.user.findUnique({ where: { email } });
+  async findByEmail(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    checkIsBadRequest(user, 'User not found');
+
+    return { ...user, password: undefined };
   }
 }
